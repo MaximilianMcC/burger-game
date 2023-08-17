@@ -7,6 +7,7 @@ class Game
 
 	public static RenderWindow Window { get; private set; }
 	public static float DeltaTime { get; private set; }
+	private static List<Ingredient> ingredients; 
 
 	public void Run()
 	{
@@ -18,14 +19,24 @@ class Game
 		// Clock and ui
 		Clock deltaTimeClock = new Clock();
 
+		// Make stuff
+		ingredients = new List<Ingredient>();
+		ingredients.Add(new Ingredient());
+
 		while (Window.IsOpen)
 		{
 			// Handle events and whatnot
 			Window.DispatchEvents();
 			DeltaTime = deltaTimeClock.Restart().AsSeconds();
 
+
+			for (int i = 0; i < ingredients.Count; i++) ingredients[i].Update();
+
+
+
 			// Draw/render everything			
 			Window.Clear(Color.Magenta);
+			for (int i = 0; i < ingredients.Count; i++) ingredients[i].Render();
 			Window.Display();
 		}
 	}
