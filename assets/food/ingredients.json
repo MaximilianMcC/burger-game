@@ -1,0 +1,54 @@
+{
+	"settings": {
+		"topBun": 0,
+		"bottomBun": 1,
+		"requiredIngredients": [2]
+	},
+
+	"ingredients": [
+		{
+			"name": "Top Bun",
+			"spawnPercentage": 0,
+			"texture": "./bun-top.png"
+		},
+		{
+			"name": "Bottom Bun",
+			"spawnPercentage": 0.1,
+			"texture": "./bun-bottom.png"
+		},
+		{
+			"name": "Beef Patty",
+			"spawnPercentage": 0.2,
+
+			"cookTimeSeconds": 60,
+			"cookStatus": [
+				{
+					"name": "Raw",
+					"texture": "./beef-raw.png"
+				},
+				{
+					"name": "Cooking",
+					"texture": "./beef-cooking.png"
+				},
+				{
+					"name": "Cooked",
+					"texture": "./beef-cooked.png"
+				},
+				{
+					"name": "Burnt",
+					"texture": "./beef-burnt.png"
+				}
+			]
+		},
+		{
+			"name": "Cheese",
+			"spawnPercentage": 0.5,
+			"texture": "./cheese.png"
+		},
+		{
+			"name": "Lettuce",
+			"spawnPercentage": 0.5,
+			"texture": "./lettuce.png"
+		}
+	]
+}
