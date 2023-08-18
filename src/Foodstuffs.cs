@@ -2,6 +2,9 @@ using System.Text.Json;
 
 public static class Foodstuffs
 {
+	public static List<Ingredient> Ingredients;
+	public static Settings Settings;
+
 	public static void LoadIngredients()	
 	{
 		// Get the ingredients JSON file
@@ -10,7 +13,10 @@ public static class Foodstuffs
 
 		// Parse the JSON
 		Root jsonData = JsonSerializer.Deserialize<Root>(ingredientsJson);
-		Console.WriteLine(jsonData.settings.topBun);
+
+		// Set all of the ingredients and settings for use in the game
+		Ingredients = jsonData.ingredients;
+		Settings = jsonData.settings;
 	}
 }
 
@@ -26,7 +32,7 @@ public class CookStatus
 public class Ingredient
 {
 	public string name { get; set; }
-	public double spawnPercentage { get; set; }
+	public float spawnPercentage { get; set; }
 	public string texture { get; set; }
 	public int? cookTimeSeconds { get; set; }
 	public List<CookStatus> cookStatus { get; set; }

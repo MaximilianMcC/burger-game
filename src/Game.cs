@@ -7,7 +7,7 @@ class Game
 
 	public static RenderWindow Window { get; private set; }
 	public static float DeltaTime { get; private set; }
-	private static List<Ingredient> ingredients; 
+	private static List<Prop> ingredients; 
 
 	public void Run()
 	{
@@ -19,9 +19,14 @@ class Game
 		// Clock and ui
 		Clock deltaTimeClock = new Clock();
 
+		Foodstuffs.LoadIngredients();
+
 		// Make stuff
-		ingredients = new List<Ingredient>();
-		ingredients.Add(new Ingredient());
+		ingredients = new List<Prop>();
+		ingredients.Add(new Prop());
+
+		//! customer test
+		Customer customer = new Customer();
 
 		while (Window.IsOpen)
 		{

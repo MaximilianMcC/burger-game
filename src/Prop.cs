@@ -2,14 +2,14 @@ using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
 
-class Ingredient
+class Prop
 {
 	public Vector2f Position { get; set; }
 	public RectangleShape sprite;
 	private bool dragging;
 	private Vector2f dragPosition;
 
-	public Ingredient()
+	public Prop()
 	{
 		sprite = new RectangleShape(new Vector2f(100, 100));
 		sprite.FillColor = Color.Red;
