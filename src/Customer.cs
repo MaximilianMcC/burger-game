@@ -1,5 +1,7 @@
 class Customer
 {
+	public List<Ingredient> Order { get; private set; }
+
 	public Customer()
 	{
 		// Create an order
@@ -12,7 +14,9 @@ class Customer
 
 		// Get how many items to add (excluding buns and required items)
 		Random random = new Random();
-		int orderCount = random.Next(0, 5);
+		// int orderCount = random.Next(0, 5);
+		int orderCount = random.Next(0, 15);
+
 
 		// Create the order list
 		List<Ingredient> order = new List<Ingredient>();
@@ -46,6 +50,9 @@ class Customer
 		// Add the required top and bottom buns
 		order.Insert(0, Foodstuffs.Ingredients[Foodstuffs.Settings.topBun]);
 		order.Add(Foodstuffs.Ingredients[Foodstuffs.Settings.bottomBun]);
+
+		// Set the customers order
+		Order = order;
 	}
 
 }
