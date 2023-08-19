@@ -49,6 +49,45 @@
 			"name": "Lettuce",
 			"spawnPercentage": 0.5,
 			"texture": "./lettuce.png"
+		},
+		{
+			"name": "Bacon",
+			"spawnPercentage": 0.3,
+
+			"cookTimeSeconds": 45,
+			"cookStatus": [
+				{
+					"name": "Raw",
+					"texture": "./bacon-raw.png"
+				},
+				{
+					"name": "Cooking",
+					"texture": "./bacon-cooking.png"
+				},
+				{
+					"name": "Cooked",
+					"texture": "./bacon-cooked.png"
+				},
+				{
+					"name": "Burnt",
+					"texture": "./bacon-burnt.png"
+				}
+			]
+		},
+		{
+			"name": "Tomato",
+			"spawnPercentage": 0.5,
+			"texture": "./tomato.png"
+		},
+		{
+			"name": "Onion",
+			"spawnPercentage": 0.5,
+			"texture": "./onion.png"
+		},
+		{
+			"name": "Pickle",
+			"spawnPercentage": 0.5,
+			"texture": "./pickle.png"
 		}
 	]
 }
