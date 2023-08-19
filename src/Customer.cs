@@ -8,9 +8,11 @@ class Customer
 
 	private void GenerateOrder()
 	{
+		//TODO: Make more advanced order generation algorithm. Add stuff like if there is a beef patty there is a larger chance to get cheese after it
+
 		// Get how many items to add (excluding buns and required items)
 		Random random = new Random();
-		int orderCount = random.Next(0, 15);
+		int orderCount = random.Next(0, 5);
 
 		// Create the order list
 		List<Ingredient> order = new List<Ingredient>();
@@ -37,22 +39,13 @@ class Customer
 		for (int i = 0; i < Foodstuffs.Settings.requiredIngredients.Count; i++)
 		{
 			// Get a random index to add the ingredient in
-			int index = random.Next(0, orderCount - 1);
-			order.Insert(index, Foodstuffs.Ingredients[i]);
+			int index = random.Next(0, orderCount);
+			order.Insert(index, Foodstuffs.Ingredients[Foodstuffs.Settings.requiredIngredients[i]]);
 		}
 
 		// Add the required top and bottom buns
 		order.Insert(0, Foodstuffs.Ingredients[Foodstuffs.Settings.topBun]);
 		order.Add(Foodstuffs.Ingredients[Foodstuffs.Settings.bottomBun]);
-
-
-
-		//! debug: print order
-		Console.WriteLine($"Order ({orderCount} items)");
-		foreach (var item in order)
-		{
-			Console.WriteLine(item.name);
-		}
 	}
 
 }
