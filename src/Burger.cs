@@ -4,7 +4,7 @@ using SFML.System;
 class Burger
 {
 	public List<Ingredient> Ingredients { get; private set; }
-	private RenderTexture burgerTexture;
+	private Sprite[] burgerSprites;
 
 	public Burger(List<Ingredient> ingredients)
 	{
@@ -15,16 +15,16 @@ class Burger
 	// Create/assemble the burger texture thing
 	public void Create()
 	{
-		burgerTexture = new RenderTexture(Game.Window.Size.X, Game.Window.Size.Y);
+		burgerSprites = new Sprite[Ingredients.Count];
 		float y = 0;
 
 		// Loop through all burger ingredients (reversed)
-		for (int i = Ingredients.Count - 1; i >= 0 ; i--)
+		for (int i = 0; i < Ingredients.Count; i++)
 		{
 			// Get the ingredient and make the sprite
 			Ingredient ingredient = Ingredients[i];
 			Sprite sprite = new Sprite();
-
+ 
 			// Check for if its something that needs cooking
 			if (ingredient.cookTimeSeconds != null)
 			{
@@ -35,16 +35,19 @@ class Burger
 			else sprite.Texture = new Texture(RelativeToAbsoluteTexture(ingredient.texture));
 
 			sprite.Position = new Vector2f(0, y);
-			//! sprite.Scale = new Vector2f(1, -1);
-			y += 10;
-			burgerTexture.Draw(sprite);
+			burgerSprites[i] = sprite;
+
+			y += 15f;
 		}
 	}
 
 	public void Render()
 	{
-		// TODO: Don't make a new sprite every frame
-		Game.Window.Draw(new Sprite(burgerTexture.Texture));
+		//TODO: Don't use sprites. Use render texture
+		for (int i = 0; i < burgerSprites.Length; i++)
+		{
+			Game.Window.Draw(burgerSprites[i]);
+		}
 	}
 
 	public string RelativeToAbsoluteTexture(string relativeTexture)
