@@ -18,11 +18,13 @@ class Burger
 		burgerSprites = new Sprite[Ingredients.Count];
 		float y = 0;
 
-		// Loop through all burger ingredients (reversed)
+		// Loop through all burger ingredients (draws reversed)
+		// for (int i = Ingredients.Count - 1; i >= 0 ; i--)
 		for (int i = 0; i < Ingredients.Count; i++)
 		{
 			// Get the ingredient and make the sprite
 			Ingredient ingredient = Ingredients[i];
+			Console.WriteLine(ingredient.name);
 			Sprite sprite = new Sprite();
  
 			// Check for if its something that needs cooking
@@ -34,10 +36,15 @@ class Burger
 			}
 			else sprite.Texture = new Texture(RelativeToAbsoluteTexture(ingredient.texture));
 
-			sprite.Position = new Vector2f(0, y);
-			burgerSprites[i] = sprite;
+			// Randomly flip the sprite on X to add some variation
+			Random random = new Random();
+			sprite.Origin = new Vector2f((sprite.Scale.X / 2), (sprite.Scale.Y / 2));
+			// if (random.NextSingle() > 0.5f) sprite.Scale = new Vector2f(-1f, 1f);
 
-			y += 15f;
+			sprite.Position = new Vector2f(0, y);
+			burgerSprites[(Ingredients.Count - 1) - i] = sprite;
+
+			y += ingredient.origin;
 		}
 	}
 

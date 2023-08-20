@@ -34,6 +34,7 @@ public class Ingredient
 	public string name { get; set; }
 	public float spawnPercentage { get; set; }
 	public string texture { get; set; }
+	public float origin { get; set; }
 	public int? cookTimeSeconds { get; set; }
 	public List<CookStatus> cookStatus { get; set; }
 }
