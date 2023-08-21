@@ -8,18 +8,21 @@
 	"ingredients": [
 		{
 			"name": "Top Bun",
+			"price": 0.1,
 			"spawnPercentage": 0,
 			"texture": "./bun-top.png",
 			"origin": 16
 		},
 		{
 			"name": "Bottom Bun",
-			"spawnPercentage": 0.1,
+			"price": 0.1,
+			"spawnPercentage": 0,
 			"texture": "./bun-bottom.png",
 			"origin": 0
 		},
 		{
 			"name": "Beef Patty",
+			"price": 1,
 			"spawnPercentage": 0.2,
 			"origin": 10,
 
@@ -45,18 +48,21 @@
 		},
 		{
 			"name": "Cheese",
+			"price": 0.3,
 			"spawnPercentage": 0.5,
 			"texture": "./cheese.png",
 			"origin": 0
 		},
 		{
 			"name": "Lettuce",
+			"price": 0.3,
 			"spawnPercentage": 0.5,
 			"texture": "./lettuce.png",
-			"origin": 10
+			"origin": 3
 		},
 		{
 			"name": "Bacon",
+			"price": 1,
 			"spawnPercentage": 0.3,
 			"origin": 10,
 
@@ -82,18 +88,21 @@
 		},
 		{
 			"name": "Tomato",
+			"price": 0.3,
 			"spawnPercentage": 0.5,
 			"texture": "./tomato.png",
 			"origin": 10
 		},
 		{
 			"name": "Onion",
+			"price": 0.3,
 			"spawnPercentage": 0.5,
 			"texture": "./onion.png",
 			"origin": 10
 		},
 		{
 			"name": "Pickle",
+			"price": 0.3,
 			"spawnPercentage": 0.5,
 			"texture": "./pickle.png",
 			"origin": 10
