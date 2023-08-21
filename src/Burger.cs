@@ -4,7 +4,8 @@ using SFML.System;
 class Burger
 {
 	public List<Ingredient> Ingredients { get; private set; }
-	private Sprite[] burgerSprites;
+	private RenderTexture burgerTexture;
+	private Sprite burgerSprite;
 
 	public Burger(List<Ingredient> ingredients)
 	{
@@ -15,16 +16,15 @@ class Burger
 	// Create/assemble the burger texture thing
 	public void Create()
 	{
-		burgerSprites = new Sprite[Ingredients.Count];
+		Sprite[] burgerSprites = new Sprite[Ingredients.Count];
+		burgerTexture = new RenderTexture(Game.Window.Size.X, Game.Window.Size.Y); // TODO: Don't hardcode size
 		float y = 0;
 
-		// Loop through all burger ingredients (draws reversed)
-		// for (int i = Ingredients.Count - 1; i >= 0 ; i--)
+		// Loop through all burger ingredients
 		for (int i = 0; i < Ingredients.Count; i++)
 		{
 			// Get the ingredient and make the sprite
 			Ingredient ingredient = Ingredients[i];
-			Console.WriteLine(ingredient.name);
 			Sprite sprite = new Sprite();
  
 			// Check for if its something that needs cooking
@@ -36,25 +36,36 @@ class Burger
 			}
 			else sprite.Texture = new Texture(RelativeToAbsoluteTexture(ingredient.texture));
 
+			// Set the scale
+			float scale = 2f;
+			sprite.Scale = new Vector2f(scale, scale);
+
 			// Randomly flip the sprite on X to add some variation
 			Random random = new Random();
-			sprite.Origin = new Vector2f((sprite.Scale.X / 2), (sprite.Scale.Y / 2));
-			// if (random.NextSingle() > 0.5f) sprite.Scale = new Vector2f(-1f, 1f);
-
+			sprite.Origin = new Vector2f(sprite.Texture.Size.X / 2, sprite.Texture.Size.Y / 2);
+			if (random.NextSingle() > 0.5f) sprite.Scale = new Vector2f(-scale, scale);
+			
 			sprite.Position = new Vector2f(0, y);
-			burgerSprites[(Ingredients.Count - 1) - i] = sprite;
 
-			y += ingredient.origin;
+			// Draw the burger
+			burgerSprites[(Ingredients.Count - 1) - i] = sprite; // (draws reversed)
+			y += ingredient.origin * scale;
 		}
+
+		// Create the texture for drawing the burger
+		for (int i = 0; i < burgerSprites.Length; i++)
+		{
+			burgerTexture.Draw(burgerSprites[i]);
+		}
+		
+		burgerSprite = new Sprite(burgerTexture.Texture);
+		burgerTexture.Display();
 	}
 
 	public void Render()
 	{
-		//TODO: Don't use sprites. Use render texture
-		for (int i = 0; i < burgerSprites.Length; i++)
-		{
-			Game.Window.Draw(burgerSprites[i]);
-		}
+		// Render the fully created burger texture
+		Game.Window.Draw(burgerSprite);
 	}
 
 	public string RelativeToAbsoluteTexture(string relativeTexture)
