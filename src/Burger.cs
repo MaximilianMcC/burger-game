@@ -4,7 +4,6 @@ using SFML.System;
 class Burger
 {
 	public List<Ingredient> Ingredients { get; private set; }
-	private RenderTexture burgerTexture;
 	private Sprite burgerSprite;
 
 	public Burger(List<Ingredient> ingredients)
@@ -17,7 +16,7 @@ class Burger
 	public void Create()
 	{
 		Sprite[] burgerSprites = new Sprite[Ingredients.Count];
-		burgerTexture = new RenderTexture(Game.Window.Size.X, Game.Window.Size.Y); // TODO: Don't hardcode size
+		RenderTexture burgerTexture = new RenderTexture(Game.Window.Size.X, Game.Window.Size.Y); // TODO: Don't hardcode size
 		float y = 0;
 
 		// Loop through all burger ingredients
@@ -40,14 +39,14 @@ class Burger
 			float scale = 2f;
 			sprite.Scale = new Vector2f(scale, scale);
 
-			// Randomly flip the sprite on X to add some variation
-			Random random = new Random();
-			sprite.Origin = new Vector2f(sprite.Texture.Size.X / 2, sprite.Texture.Size.Y / 2);
-			if (random.NextSingle() > 0.5f) sprite.Scale = new Vector2f(-scale, scale);
-			
-			sprite.Position = new Vector2f(0, y);
+			//TODO: Randomly flip the sprite on X to add some variation
+			// Random random = new Random();
+			// sprite.Origin = new Vector2f(sprite.Texture.Size.X / 2, sprite.Texture.Size.Y / 2);
+			// if (random.NextSingle() > 0.5f) sprite.Scale = new Vector2f(-scale, scale);
+			// sprite.Origin = new Vector2f(0, 0);
 
-			// Draw the burger
+			// Set the position, then draw it
+			sprite.Position = new Vector2f(0, y);
 			burgerSprites[(Ingredients.Count - 1) - i] = sprite; // (draws reversed)
 			y += ingredient.origin * scale;
 		}

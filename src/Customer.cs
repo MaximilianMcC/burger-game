@@ -1,6 +1,11 @@
+using SFML.Graphics;
+using SFML.System;
+
 class Customer
 {
 	public List<Ingredient> Order { get; private set; }
+	public float OrderPrice { get; private set; }
+	private RenderTexture receipt;
 
 	public Customer()
 	{
@@ -32,6 +37,7 @@ class Customer
 				{
 					// Add the ingredient to the order
 					order.Add(ingredient);
+					OrderPrice += ingredient.price;
 
 					// Only add a single ingredient
 					break;
@@ -51,8 +57,61 @@ class Customer
 		order.Insert(0, Foodstuffs.Ingredients[Foodstuffs.Settings.topBun]);
 		order.Add(Foodstuffs.Ingredients[Foodstuffs.Settings.bottomBun]);
 
-		// Set the customers order
+		// Set the customers order and the price
 		Order = order;
+		OrderPrice = MathF.Round(OrderPrice, 2);
+	}
+
+	// Make a receipt showing the customers order
+	public void GenerateOrderReceipt()
+	{
+		// Get all needed assets
+		Font font = new Font("./assets/fonts/MerchantCopy.ttf");
+		Font fontWide = new Font("./assets/fonts/MerchantCopyWide.ttf");
+		Sprite receiptBackground = new Sprite(new Texture("./assets/receipt-paper.png"));
+		uint fontSize = 24;
+
+		// Begin to make the actual receipt
+		receipt = new RenderTexture(Game.Window.Size.X, Game.Window.Size.Y);
+		receiptBackground.Scale = new Vector2f(0.5f, 0.5f);
+		receipt.Draw(receiptBackground);
+
+		// Generate the receipt text about the order
+		string itemsTextString = "ORDER SUMMARY -------\n";
+		string pricesTextString = "\n";
+		foreach (Ingredient ingredient in Order)
+		{
+			itemsTextString += "> " + ingredient.name + "\n";
+			pricesTextString += ingredient.price.ToString("$0.00\n");
+		}
+		itemsTextString += "---------------------\nTOTAL: " + OrderPrice.ToString("$0.00");
+		
+		// Make the receipt items text
+		Text itemsText = new Text(itemsTextString, font, fontSize);
+		itemsText.Position = new Vector2f(10, 30);
+		itemsText.FillColor = Color.Black;
+		receipt.Draw(itemsText);
+
+		// Make the receipt prices text
+		Text pricesText = new Text(pricesTextString, font, fontSize);
+		pricesText.Origin = new Vector2f(pricesText.GetGlobalBounds().Width, 0);
+		pricesText.Position = new Vector2f(200, 30);
+		pricesText.FillColor = Color.Black;
+		receipt.Draw(pricesText);
+
+		// Generate the other random receipt stuff. Barcode and whatnot maybe. logo
+
+
+		// Display the final receipt before rendering to stop it from going upside down
+		receipt.Display();
+	}
+
+
+
+	public void RenderReceipt()
+	{
+		// TODO: Don't make new sprite every time
+		Game.Window.Draw(new Sprite(receipt.Texture));
 	}
 
 }

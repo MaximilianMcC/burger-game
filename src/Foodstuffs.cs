@@ -32,6 +32,7 @@ public class CookStatus
 public class Ingredient
 {
 	public string name { get; set; }
+	public float price { get; set; }
 	public float spawnPercentage { get; set; }
 	public string texture { get; set; }
 	public float origin { get; set; }
