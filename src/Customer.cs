@@ -131,8 +131,12 @@ class Customer
 		numberPatterns[8] = new bool[] { false, true, true, false, true, true, true };
 		numberPatterns[9] = new bool[] { false, false, false, true, false, true, true };
 
-		uint width = (uint)(numberInput.ToString().Length * 10);
-		RenderTexture barcode = new RenderTexture(width, 100); //? 100 high
+		int barWidth = 5;
+		int barHeight = 200;
+		uint width = (uint)(numberInput.ToString().Length * (barWidth * 7));
+		RenderTexture barcode = new RenderTexture(width, (uint)(barHeight));
+		Console.WriteLine(width);
+		Console.WriteLine(numberInput.ToString().Length);
 
 		// TODO: don't cast to string, char, then back to string
 		int x = 0;
@@ -148,21 +152,22 @@ class Customer
 				for (int j = 0; j < numberPatterns[i].Length; j++)
 				{
 					// Make the bar
-					//? each bar is 10 wide, 100 tall
-					RectangleShape bar = new RectangleShape(new Vector2f(10, 100));
+					RectangleShape bar = new RectangleShape(new Vector2f(barWidth, barHeight));
 					bar.Position = new Vector2f(x, 0);
 
 					// Fill or no fill
 					bar.FillColor = Color.White;
-					if (numberPatterns[i][j] == true) bar.FillColor = Color.Black;
+					bar.FillColor = (numberPatterns[i][j] == true) ? Color.Black : Color.White;
 
 					// Draw the bar, then increase the index for the next one
 					barcode.Draw(bar);
-					x++;
+					x += barWidth;
 				}
 			}
 		}
 
+		// Return the render texture as a sprite
+		barcode.Display();
 		return new Sprite(barcode.Texture);
 	}
 }
