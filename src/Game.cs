@@ -24,6 +24,10 @@ class Game
 		Burger testBurger = new Burger(testCustomer.Order);
 		testCustomer.GenerateOrderReceipt();
 
+
+		// barcode test
+		Sprite barcodeTest = testCustomer.GenerateBarcode(1234567890);
+
 		// Make stuff
 		ingredients = new List<Prop>();
 		ingredients.Add(new Prop());
@@ -43,6 +47,7 @@ class Game
 			// Draw/render everything			
 			Window.Clear(Color.Magenta);
 			for (int i = 0; i < ingredients.Count; i++) ingredients[i].Render();
+			Game.Window.Draw(barcodeTest);
 			
 			testBurger.Render();
 			testCustomer.RenderReceipt();

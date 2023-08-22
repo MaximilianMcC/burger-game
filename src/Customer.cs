@@ -100,7 +100,7 @@ class Customer
 		receipt.Draw(pricesText);
 
 		// Generate the other random receipt stuff. Barcode and whatnot maybe. logo
-
+		
 
 		// Display the final receipt before rendering to stop it from going upside down
 		receipt.Display();
@@ -114,4 +114,55 @@ class Customer
 		Game.Window.Draw(new Sprite(receipt.Texture));
 	}
 
+
+
+	public Sprite GenerateBarcode(int numberInput)
+	{
+		// from https://www.labelsandlabeling.com/sites/labels/lnl/files/Books/figure_2.2_-_how_barcodes_can_be_used_to_represent_the_numbers_from_zero_to_nine.png
+		bool[][] numberPatterns = new bool[10][];
+		numberPatterns[1] = new bool[] { false, false, true, true, false, false, true };
+		numberPatterns[0] = new bool[] { false, false, false, true, true, false, true };
+		numberPatterns[2] = new bool[] { false, false, true, false, false, true, true };
+		numberPatterns[3] = new bool[] { false, true, true, true, true, false, true };
+		numberPatterns[4] = new bool[] { false, true, false, false, false, true, true };
+		numberPatterns[5] = new bool[] { false, true, true, false, false, false, true };
+		numberPatterns[6] = new bool[] { false, true, false, true, true, true, true };
+		numberPatterns[7] = new bool[] { false, true, true, true, false, true, true };
+		numberPatterns[8] = new bool[] { false, true, true, false, true, true, true };
+		numberPatterns[9] = new bool[] { false, false, false, true, false, true, true };
+
+		uint width = (uint)(numberInput.ToString().Length * 10);
+		RenderTexture barcode = new RenderTexture(width, 100); //? 100 high
+
+		// TODO: don't cast to string, char, then back to string
+		int x = 0;
+		foreach (char singleNumber in numberInput.ToString())
+		{
+			// Check for what number it is
+			int number = int.Parse(singleNumber.ToString());
+			for (int i = 0; i < numberPatterns.Length; i++)
+			{
+				if (number != i) continue;
+
+				// Add the current number to the barcode
+				for (int j = 0; j < numberPatterns[i].Length; j++)
+				{
+					// Make the bar
+					//? each bar is 10 wide, 100 tall
+					RectangleShape bar = new RectangleShape(new Vector2f(10, 100));
+					bar.Position = new Vector2f(x, 0);
+
+					// Fill or no fill
+					bar.FillColor = Color.White;
+					if (numberPatterns[i][j] == true) bar.FillColor = Color.Black;
+
+					// Draw the bar, then increase the index for the next one
+					barcode.Draw(bar);
+					x++;
+				}
+			}
+		}
+
+		return new Sprite(barcode.Texture);
+	}
 }
