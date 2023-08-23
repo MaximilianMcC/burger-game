@@ -13,6 +13,7 @@ class Game
 	{
 		// Create the SFML window
 		Window = new RenderWindow(new VideoMode(800, 600), "Burger"); // 4:3
+		Window.SetIcon(1000, 1000, new Image("./assets/logo-square.png").Pixels);
 		Window.SetFramerateLimit(60);
 		Window.Closed += (sender, e) => Window.Close();
 
@@ -24,9 +25,6 @@ class Game
 		Burger testBurger = new Burger(testCustomer.Order);
 		testCustomer.GenerateOrderReceipt();
 
-
-		// barcode test
-		Sprite barcodeTest = testCustomer.GenerateBarcode(1234567890);
 
 		// Make stuff
 		ingredients = new List<Prop>();
@@ -47,7 +45,6 @@ class Game
 			// Draw/render everything			
 			Window.Clear(Color.Magenta);
 			for (int i = 0; i < ingredients.Count; i++) ingredients[i].Render();
-			Game.Window.Draw(barcodeTest);
 			
 			testBurger.Render();
 			testCustomer.RenderReceipt();
