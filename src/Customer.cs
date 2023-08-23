@@ -5,6 +5,7 @@ class Customer
 {
 	public List<Ingredient> Order { get; private set; }
 	public float OrderPrice { get; private set; }
+	public int OrderNumber { get; set; } //? Position in the line
 	private RenderTexture receipt;
 
 	public Customer()
@@ -19,8 +20,7 @@ class Customer
 
 		// Get how many items to add (excluding buns and required items)
 		Random random = new Random();
-		// int orderCount = random.Next(0, 5);
-		int orderCount = random.Next(0, 15);
+		int orderCount = random.Next(0, 10);
 
 
 		// Create the order list
@@ -60,9 +60,11 @@ class Customer
 		// Set the customers order and the price
 		Order = order;
 		OrderPrice = MathF.Round(OrderPrice, 2);
+		OrderNumber++;
 	}
 
 	// Make a receipt showing the customers order
+	// TODO: Have one single Y value that is incremented so stuff is dynamic
 	public void GenerateOrderReceipt()
 	{
 		// Get all needed assets
@@ -77,30 +79,47 @@ class Customer
 		receipt.Draw(receiptBackground);
 
 		// Generate the receipt text about the order
-		string itemsTextString = "ORDER SUMMARY -------\n";
+		string itemsTextString = "ORDER SUMMARY =======\n";
 		string pricesTextString = "\n";
 		foreach (Ingredient ingredient in Order)
 		{
 			itemsTextString += "> " + ingredient.name + "\n";
 			pricesTextString += ingredient.price.ToString("$0.00\n");
 		}
-		itemsTextString += "---------------------\nTOTAL: " + OrderPrice.ToString("$0.00");
+		itemsTextString += "=====================\nAMOUNT DUE: " + OrderPrice.ToString("$0.00");
+
 		
 		// Make the receipt items text
 		Text itemsText = new Text(itemsTextString, font, fontSize);
-		itemsText.Position = new Vector2f(10, 30);
+		itemsText.Position = new Vector2f(10, 150);
 		itemsText.FillColor = Color.Black;
 		receipt.Draw(itemsText);
 
 		// Make the receipt prices text
 		Text pricesText = new Text(pricesTextString, font, fontSize);
 		pricesText.Origin = new Vector2f(pricesText.GetGlobalBounds().Width, 0);
-		pricesText.Position = new Vector2f(200, 30);
+		pricesText.Position = new Vector2f(200, 150);
 		pricesText.FillColor = Color.Black;
 		receipt.Draw(pricesText);
 
-		// Generate the other random receipt stuff. Barcode and whatnot maybe. logo
-		
+		// Make some random stuff at the bottom
+		string bottomTextString = "Thank your for shopping\nat Max Hambur. Next order is\n15% off (not guaranteed)";
+		Text bottomText = new Text(bottomTextString, font, 20);
+		bottomText.FillColor = Color.Black;
+		bottomText.Position = new Vector2f(10, 360);
+		receipt.Draw(bottomText);
+
+		// Add a barcode with a random number to look cool
+		Sprite barcode = GenerateBarcode(new Random().Next(10000, 99999));
+		barcode.Position = new Vector2f(10, 450);
+		receipt.Draw(barcode);
+
+		// Add the establishments logo
+		// TODO: Write "fine dining establishments" somewhere on the logo
+		Sprite logo = new Sprite(new Texture("./assets/logo-receipt.png"));
+		logo.Scale = new Vector2f(3, 2);
+		logo.Position = new Vector2f(10, 30);
+		receipt.Draw(logo);
 
 		// Display the final receipt before rendering to stop it from going upside down
 		receipt.Display();
@@ -115,28 +134,26 @@ class Customer
 	}
 
 
-
-	public Sprite GenerateBarcode(int numberInput)
+	// Make a barcode
+	private Sprite GenerateBarcode(int numberInput)
 	{
 		// from https://www.labelsandlabeling.com/sites/labels/lnl/files/Books/figure_2.2_-_how_barcodes_can_be_used_to_represent_the_numbers_from_zero_to_nine.png
 		bool[][] numberPatterns = new bool[10][];
-		numberPatterns[1] = new bool[] { false, false, true, true, false, false, true };
-		numberPatterns[0] = new bool[] { false, false, false, true, true, false, true };
-		numberPatterns[2] = new bool[] { false, false, true, false, false, true, true };
-		numberPatterns[3] = new bool[] { false, true, true, true, true, false, true };
-		numberPatterns[4] = new bool[] { false, true, false, false, false, true, true };
-		numberPatterns[5] = new bool[] { false, true, true, false, false, false, true };
-		numberPatterns[6] = new bool[] { false, true, false, true, true, true, true };
-		numberPatterns[7] = new bool[] { false, true, true, true, false, true, true };
-		numberPatterns[8] = new bool[] { false, true, true, false, true, true, true };
-		numberPatterns[9] = new bool[] { false, false, false, true, false, true, true };
+		numberPatterns[1] = new bool[] { false, false, true, true, false, false, true }; // ░░██░░█
+		numberPatterns[0] = new bool[] { false, false, false, true, true, false, true }; // ░░░██░█
+		numberPatterns[2] = new bool[] { false, false, true, false, false, true, true }; // ░░█░░██
+		numberPatterns[3] = new bool[] { false, true, true, true, true, false, true };   // ░████░█
+		numberPatterns[4] = new bool[] { false, true, false, false, false, true, true }; // ░█░░░██
+		numberPatterns[5] = new bool[] { false, true, true, false, false, false, true }; // ░██░░░█
+		numberPatterns[6] = new bool[] { false, true, false, true, true, true, true };   // ░█░████
+		numberPatterns[7] = new bool[] { false, true, true, true, false, true, true };   // ░███░██
+		numberPatterns[8] = new bool[] { false, true, true, false, true, true, true };   // ░██░███
+		numberPatterns[9] = new bool[] { false, false, false, true, false, true, true }; // ░░░█░██
 
 		int barWidth = 5;
-		int barHeight = 200;
+		int barHeight = 50;
 		uint width = (uint)(numberInput.ToString().Length * (barWidth * 7));
 		RenderTexture barcode = new RenderTexture(width, (uint)(barHeight));
-		Console.WriteLine(width);
-		Console.WriteLine(numberInput.ToString().Length);
 
 		// TODO: don't cast to string, char, then back to string
 		int x = 0;
@@ -155,9 +172,8 @@ class Customer
 					RectangleShape bar = new RectangleShape(new Vector2f(barWidth, barHeight));
 					bar.Position = new Vector2f(x, 0);
 
-					// Fill or no fill
-					bar.FillColor = Color.White;
-					bar.FillColor = (numberPatterns[i][j] == true) ? Color.Black : Color.White;
+					// Color the bars
+					if (numberPatterns[i][j] == true) bar.FillColor = Color.Black;
 
 					// Draw the bar, then increase the index for the next one
 					barcode.Draw(bar);
