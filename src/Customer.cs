@@ -19,31 +19,33 @@ class Customer
 		//TODO: Make more advanced order generation algorithm. Add stuff like if there is a beef patty there is a larger chance to get cheese after it
 
 		// Get how many items to add (excluding buns and required items)
-		//! Current order count is debug values. change to smaller
 		Random random = new Random();
-		int orderCount = random.Next(0, 10);
+		int orderCount = random.Next(0, 7);
 
 
 		// Create the order list
 		List<Ingredient> order = new List<Ingredient>();
 
+
+		// Create a weighted list so that the probabilities are real
+		List<Ingredient> weightedIngredients = new List<Ingredient>();
+		foreach (Ingredient ingredient in Foodstuffs.Ingredients)
+		{
+			// Get how many items to add (the weight/percentage)
+			int weight = (int)(ingredient.spawnPercentage * 100);
+			for (int i = 0; i < weight; i++) weightedIngredients.Add(ingredient);
+		}
+
 		// Add the random items to the order
 		for (int i = 0; i < orderCount; i++)
 		{
-			// Loop through all ingredients
-			foreach (Ingredient ingredient in Foodstuffs.Ingredients)
-			{
-				// Check for if the current ingredient is selected
-				if (random.NextSingle() < ingredient.spawnPercentage)
-				{
-					// Add the ingredient to the order
-					order.Add(ingredient);
-					OrderPrice += ingredient.price;
+			// Get a random ingredient from the weighted list
+			int index = random.Next(0, weightedIngredients.Count);
+			Ingredient ingredient = weightedIngredients[index];
 
-					// Only add a single ingredient
-					break;
-				}
-			}
+			// Add the ingredient to the order
+			order.Add(ingredient);
+			OrderPrice += ingredient.price;
 		}
 
 		// Add the required ingredients
