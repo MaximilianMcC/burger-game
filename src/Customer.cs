@@ -19,6 +19,7 @@ class Customer
 		//TODO: Make more advanced order generation algorithm. Add stuff like if there is a beef patty there is a larger chance to get cheese after it
 
 		// Get how many items to add (excluding buns and required items)
+		//! Current order count is debug values. change to smaller
 		Random random = new Random();
 		int orderCount = random.Next(0, 10);
 
@@ -62,7 +63,7 @@ class Customer
 
 		// Set the customers order and the price
 		Order = order;
-		// OrderPrice = MathF.Round(OrderPrice, 2);
+		OrderPrice = MathF.Round(OrderPrice, 2);
 		OrderNumber++;
 	}
 
@@ -70,6 +71,10 @@ class Customer
 	// TODO: Have one single Y value that is incremented so stuff is dynamic
 	public void GenerateOrderReceipt()
 	{
+		// Dynamic coordinates to fit the receipt content
+		float y = 0;
+		float x = 10;
+
 		// Get all needed assets
 		Font font = new Font("./assets/fonts/MerchantCopy.ttf");
 		Font fontWide = new Font("./assets/fonts/MerchantCopyWide.ttf");
@@ -81,6 +86,17 @@ class Customer
 		receiptBackground.Scale = new Vector2f(0.5f, 0.5f);
 		receipt.Draw(receiptBackground);
 
+
+
+		// Add the establishments logo
+		y += 30;
+		Sprite logo = new Sprite(new Texture("./assets/logo-receipt.png"));
+		logo.Scale = new Vector2f(3, 2);
+		logo.Position = new Vector2f(x, y);
+		receipt.Draw(logo);
+
+
+		// TODO: Don't fill it with newlines and stuff
 		// Generate the receipt text about the order
 		string itemsTextString = "ORDER SUMMARY =======\n";
 		string pricesTextString = "\n";
@@ -93,36 +109,32 @@ class Customer
 
 		
 		// Make the receipt items text
+		y += 130;
 		Text itemsText = new Text(itemsTextString, font, fontSize);
-		itemsText.Position = new Vector2f(10, 150);
+		itemsText.Position = new Vector2f(x, y);
 		itemsText.FillColor = Color.Black;
 		receipt.Draw(itemsText);
 
 		// Make the receipt prices text
 		Text pricesText = new Text(pricesTextString, font, fontSize);
 		pricesText.Origin = new Vector2f(pricesText.GetGlobalBounds().Width, 0);
-		pricesText.Position = new Vector2f(200, 150);
+		pricesText.Position = new Vector2f(x + 200, y);
 		pricesText.FillColor = Color.Black;
 		receipt.Draw(pricesText);
 
 		// Make some random stuff at the bottom
+		y += itemsText.GetGlobalBounds().Height + 20;
 		string bottomTextString = "Thank your for shopping\nat Max Hambur. Next order is\n15% off (not guaranteed)";
 		Text bottomText = new Text(bottomTextString, font, 20);
 		bottomText.FillColor = Color.Black;
-		bottomText.Position = new Vector2f(10, 360);
+		bottomText.Position = new Vector2f(x, y);
 		receipt.Draw(bottomText);
 
 		// Add a barcode with a random number to look cool
+		y = receipt.Texture.Size.Y - 120;
 		Sprite barcode = GenerateBarcode(new Random().Next(10000, 99999));
-		barcode.Position = new Vector2f(10, 450);
+		barcode.Position = new Vector2f(x, y);
 		receipt.Draw(barcode);
-
-		// Add the establishments logo
-		// TODO: Write "fine dining establishments" somewhere on the logo
-		Sprite logo = new Sprite(new Texture("./assets/logo-receipt.png"));
-		logo.Scale = new Vector2f(3, 2);
-		logo.Position = new Vector2f(10, 30);
-		receipt.Draw(logo);
 
 		// Display the final receipt before rendering to stop it from going upside down
 		receipt.Display();
@@ -176,7 +188,7 @@ class Customer
 					bar.Position = new Vector2f(x, 0);
 
 					// Color the bars
-					if (numberPatterns[i][j] == true) bar.FillColor = Color.Black;
+					bar.FillColor = (numberPatterns[i][j] == true) ? Color.Transparent : Color.Black;
 
 					// Draw the bar, then increase the index for the next one
 					barcode.Draw(bar);
