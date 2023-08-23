@@ -4,7 +4,7 @@ using SFML.System;
 class Customer
 {
 	public List<Ingredient> Order { get; private set; }
-	public float OrderPrice { get; private set; }
+	public float OrderPrice { get; private set; } = 0f;
 	public int OrderNumber { get; set; } //? Position in the line
 	private RenderTexture receipt;
 
@@ -51,15 +51,18 @@ class Customer
 			// Get a random index to add the ingredient in
 			int index = random.Next(0, orderCount);
 			order.Insert(index, Foodstuffs.Ingredients[Foodstuffs.Settings.requiredIngredients[i]]);
+			OrderPrice += Foodstuffs.Ingredients[Foodstuffs.Settings.requiredIngredients[i]].price;
 		}
 
 		// Add the required top and bottom buns
 		order.Insert(0, Foodstuffs.Ingredients[Foodstuffs.Settings.topBun]);
 		order.Add(Foodstuffs.Ingredients[Foodstuffs.Settings.bottomBun]);
+		OrderPrice += Foodstuffs.Ingredients[Foodstuffs.Settings.topBun].price;
+		OrderPrice += Foodstuffs.Ingredients[Foodstuffs.Settings.bottomBun].price;
 
 		// Set the customers order and the price
 		Order = order;
-		OrderPrice = MathF.Round(OrderPrice, 2);
+		// OrderPrice = MathF.Round(OrderPrice, 2);
 		OrderNumber++;
 	}
 
@@ -139,16 +142,16 @@ class Customer
 	{
 		// from https://www.labelsandlabeling.com/sites/labels/lnl/files/Books/figure_2.2_-_how_barcodes_can_be_used_to_represent_the_numbers_from_zero_to_nine.png
 		bool[][] numberPatterns = new bool[10][];
-		numberPatterns[1] = new bool[] { false, false, true, true, false, false, true }; // ░░██░░█
-		numberPatterns[0] = new bool[] { false, false, false, true, true, false, true }; // ░░░██░█
-		numberPatterns[2] = new bool[] { false, false, true, false, false, true, true }; // ░░█░░██
-		numberPatterns[3] = new bool[] { false, true, true, true, true, false, true };   // ░████░█
-		numberPatterns[4] = new bool[] { false, true, false, false, false, true, true }; // ░█░░░██
-		numberPatterns[5] = new bool[] { false, true, true, false, false, false, true }; // ░██░░░█
-		numberPatterns[6] = new bool[] { false, true, false, true, true, true, true };   // ░█░████
-		numberPatterns[7] = new bool[] { false, true, true, true, false, true, true };   // ░███░██
-		numberPatterns[8] = new bool[] { false, true, true, false, true, true, true };   // ░██░███
-		numberPatterns[9] = new bool[] { false, false, false, true, false, true, true }; // ░░░█░██
+		numberPatterns[1] = new bool[] { false, false, true, true, false, false, true };
+		numberPatterns[0] = new bool[] { false, false, false, true, true, false, true };
+		numberPatterns[2] = new bool[] { false, false, true, false, false, true, true };
+		numberPatterns[3] = new bool[] { false, true, true, true, true, false, true };
+		numberPatterns[4] = new bool[] { false, true, false, false, false, true, true };
+		numberPatterns[5] = new bool[] { false, true, true, false, false, false, true };
+		numberPatterns[6] = new bool[] { false, true, false, true, true, true, true };
+		numberPatterns[7] = new bool[] { false, true, true, true, false, true, true };
+		numberPatterns[8] = new bool[] { false, true, true, false, true, true, true };
+		numberPatterns[9] = new bool[] { false, false, false, true, false, true, true };
 
 		int barWidth = 5;
 		int barHeight = 50;
