@@ -1,0 +1,30 @@
+{
+	"template1Item": "{greeting}{want}{thing}{ending}",
+
+	"greetings": [
+		"Hello",
+		"Kia Ora",
+		"Right,",
+		"ok buddy,"
+	],
+
+	"want": [
+		"",
+		"i'm looking for a",
+		"imma need a",
+		"give me a",
+		"please give me a",
+		"im feeling like a",
+		"gimme",
+		"surely chuck us a",
+		"surely a"
+	],
+
+	"end": [
+		"rn",
+		"now",
+		"please",
+		"thank you",
+		"ty"
+	]
+}
