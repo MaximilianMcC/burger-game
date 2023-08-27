@@ -32,7 +32,7 @@ class Customer
 		foreach (Ingredient ingredient in Foodstuffs.Ingredients)
 		{
 			// Get how many items to add (the weight/percentage)
-			int weight = (int)(ingredient.spawnPercentage * 100);
+			int weight = (int)(ingredient.SpawnPercentage * 100);
 			for (int i = 0; i < weight; i++) weightedIngredients.Add(ingredient);
 		}
 
@@ -45,23 +45,23 @@ class Customer
 
 			// Add the ingredient to the order
 			order.Add(ingredient);
-			OrderPrice += ingredient.price;
+			OrderPrice += ingredient.Price;
 		}
 
 		// Add the required ingredients
-		for (int i = 0; i < Foodstuffs.Settings.requiredIngredients.Count; i++)
+		for (int i = 0; i < Foodstuffs.Settings.RequiredIngredients.Count; i++)
 		{
 			// Get a random index to add the ingredient in
 			int index = random.Next(0, orderCount);
-			order.Insert(index, Foodstuffs.Ingredients[Foodstuffs.Settings.requiredIngredients[i]]);
-			OrderPrice += Foodstuffs.Ingredients[Foodstuffs.Settings.requiredIngredients[i]].price;
+			order.Insert(index, Foodstuffs.Ingredients[Foodstuffs.Settings.RequiredIngredients[i]]);
+			OrderPrice += Foodstuffs.Ingredients[Foodstuffs.Settings.RequiredIngredients[i]].Price;
 		}
 
 		// Add the required top and bottom buns
-		order.Insert(0, Foodstuffs.Ingredients[Foodstuffs.Settings.topBun]);
-		order.Add(Foodstuffs.Ingredients[Foodstuffs.Settings.bottomBun]);
-		OrderPrice += Foodstuffs.Ingredients[Foodstuffs.Settings.topBun].price;
-		OrderPrice += Foodstuffs.Ingredients[Foodstuffs.Settings.bottomBun].price;
+		order.Insert(0, Foodstuffs.Ingredients[Foodstuffs.Settings.TopBun]);
+		order.Add(Foodstuffs.Ingredients[Foodstuffs.Settings.BottomBun]);
+		OrderPrice += Foodstuffs.Ingredients[Foodstuffs.Settings.TopBun].Price;
+		OrderPrice += Foodstuffs.Ingredients[Foodstuffs.Settings.BottomBun].Price;
 
 		// Set the customers order and the price
 		Order = order;
@@ -80,24 +80,24 @@ class Customer
 		string ending;
 		
 		// Add a random, then way of asking what they want
-		greeting = Dialogue.Lines.greetings[random.Next(0, Dialogue.Lines.greetings.Count)] + " ";
-		want = Dialogue.Lines.want[random.Next(0, Dialogue.Lines.want.Count)] + " ";
+		greeting = Dialogue.Lines.Greetings[random.Next(0, Dialogue.Lines.Greetings.Count)] + " ";
+		want = Dialogue.Lines.Want[random.Next(0, Dialogue.Lines.Want.Count)] + " ";
 
 		// Add what type of food they want
 		// TODO: Add other food types and whatnot. For example, "burger and a drink"
 		foodType = "burger" + " ";
 
 		// Add the "with" part
-		with = Dialogue.Lines.with[random.Next(0, Dialogue.Lines.with.Count)] + " ";
+		with = Dialogue.Lines.With[random.Next(0, Dialogue.Lines.With.Count)] + " ";
 
 		// Add the ingredients
-		ingredients = string.Join(", ", Order.Select(ingredient => ingredient.name)) + ". ";
+		ingredients = string.Join(", ", Order.Select(ingredient => ingredient.Name)) + ". ";
 
 		// Add the ending
-		ending = Dialogue.Lines.end[random.Next(0, Dialogue.Lines.end.Count)] + " ";
+		ending = Dialogue.Lines.End[random.Next(0, Dialogue.Lines.End.Count)] + " ";
 
 		// Make the order string
-		orderString = Dialogue.Lines.template1Item.Replace("{greeting}", greeting);
+		orderString = Dialogue.Lines.Template1Item.Replace("{greeting}", greeting);
 		orderString = orderString.Replace("{want}", want);
 		orderString = orderString.Replace("{thingName}", foodType);
 		orderString = orderString.Replace("{with}", with);
@@ -142,8 +142,8 @@ class Customer
 		string pricesTextString = "\n";
 		foreach (Ingredient ingredient in Order)
 		{
-			itemsTextString += "> " + ingredient.name + "\n";
-			pricesTextString += ingredient.price.ToString("$0.00\n");
+			itemsTextString += "> " + ingredient.Name + "\n";
+			pricesTextString += ingredient.Price.ToString("$0.00\n");
 		}
 		itemsTextString += "=====================\nAMOUNT DUE: " + OrderPrice.ToString("$0.00");
 

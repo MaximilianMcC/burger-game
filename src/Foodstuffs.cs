@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 public static class Foodstuffs
 {
@@ -15,8 +16,8 @@ public static class Foodstuffs
 		Root jsonData = JsonSerializer.Deserialize<Root>(ingredientsJson);
 
 		// Set all of the ingredients and settings for use in the game
-		Ingredients = jsonData.ingredients;
-		Settings = jsonData.settings;
+		Ingredients = jsonData.Ingredients;
+		Settings = jsonData.Settings;
 	}
 }
 
@@ -31,24 +32,24 @@ public class CookStatus
 
 public class Ingredient
 {
-	public string name { get; set; }
-	public float price { get; set; }
-	public float spawnPercentage { get; set; }
-	public string texture { get; set; }
-	public float origin { get; set; }
-	public int? cookTimeSeconds { get; set; }
-	public List<CookStatus> cookStatus { get; set; }
+	[JsonPropertyName("name")] public string Name { get; set; }
+	[JsonPropertyName("price")] public float Price { get; set; }
+	[JsonPropertyName("spawnPercentage")] public float SpawnPercentage { get; set; }
+	[JsonPropertyName("texture")] public string Texture { get; set; }
+	[JsonPropertyName("origin")] public float Origin { get; set; }
+	[JsonPropertyName("cookTimeSeconds")] public int? CookTimeSeconds { get; set; }
+	[JsonPropertyName("cookStatus")] public List<CookStatus> CookStatus { get; set; }
 }
 
 public class Root
 {
-	public Settings settings { get; set; }
-	public List<Ingredient> ingredients { get; set; }
+	[JsonPropertyName("settings")] public Settings Settings { get; set; }
+	[JsonPropertyName("ingredients")] public List<Ingredient> Ingredients { get; set; }
 }
 
 public class Settings
 {
-	public int topBun { get; set; }
-	public int bottomBun { get; set; }
-	public List<int> requiredIngredients { get; set; }
+	[JsonPropertyName("topBun")] public int TopBun { get; set; }
+	[JsonPropertyName("bottomBun")] public int BottomBun { get; set; }
+	[JsonPropertyName("requiredIngredients")] public List<int> RequiredIngredients { get; set; }
 }

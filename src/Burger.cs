@@ -27,13 +27,13 @@ class Burger
 			Sprite sprite = new Sprite();
  
 			// Check for if its something that needs cooking
-			if (ingredient.cookTimeSeconds != null)
+			if (ingredient.CookTimeSeconds != null)
 			{
 				// Needs cooking. Get first texture
 				// TODO: Store cook status and stuff
-				sprite.Texture = new Texture(RelativeToAbsoluteTexture(ingredient.cookStatus[0].texture));
+				sprite.Texture = new Texture(RelativeToAbsoluteTexture(ingredient.CookStatus[0].texture));
 			}
-			else sprite.Texture = new Texture(RelativeToAbsoluteTexture(ingredient.texture));
+			else sprite.Texture = new Texture(RelativeToAbsoluteTexture(ingredient.Texture));
 
 			// Set the scale
 			float scale = 2f;
@@ -48,7 +48,7 @@ class Burger
 			// Set the position, then draw it
 			sprite.Position = new Vector2f(0, y);
 			burgerSprites[(Ingredients.Count - 1) - i] = sprite; // (draws reversed)
-			y += ingredient.origin * scale;
+			y += ingredient.Origin * scale;
 		}
 
 		// Create the texture for drawing the burger

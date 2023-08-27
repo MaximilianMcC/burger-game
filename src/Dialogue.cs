@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 public static class Dialogue
 {
@@ -18,9 +19,9 @@ public static class Dialogue
 
 public class DialogueLines
 {
-	public string template1Item { get; set; }
-	public List<string> greetings { get; set; }
-	public List<string> want { get; set; }
-	public List<string> with { get; set; }
-	public List<string> end { get; set; }
+	[JsonPropertyName("template1Item")] public string Template1Item { get; set; }
+	[JsonPropertyName("greetings")] public List<string> Greetings { get; set; }
+	[JsonPropertyName("want")] public List<string> Want { get; set; }
+	[JsonPropertyName("with")] public List<string> With { get; set; }
+	[JsonPropertyName("end")] public List<string> End { get; set; }
 }
