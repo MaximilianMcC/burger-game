@@ -6,7 +6,7 @@ class Customer
 	public List<Ingredient> Order { get; private set; }
 	public string OrderString { get; private set; }
 	public float OrderPrice { get; private set; } = 0.00f;
-	private RenderTexture receipt;
+	private Sprite receipt;
 
 	public Customer()
 	{
@@ -91,6 +91,7 @@ class Customer
 		with = Dialogue.Lines.With[random.Next(0, Dialogue.Lines.With.Count)] + " ";
 
 		// Add the ingredients
+		// TODO: Make it sound more real. For example "top bun, maybe some cheese, onion, tomato, and beef patty with bottom bun"
 		ingredients = string.Join(", ", Order.Select(ingredient => ingredient.Name)) + ". ";
 
 		// Add the ending
@@ -122,9 +123,9 @@ class Customer
 		uint fontSize = 24;
 
 		// Begin to make the actual receipt
-		receipt = new RenderTexture(Game.Window.Size.X, Game.Window.Size.Y);
+		RenderTexture receiptTexture = new RenderTexture(Game.Window.Size.X, Game.Window.Size.Y);
 		receiptBackground.Scale = new Vector2f(0.5f, 0.5f);
-		receipt.Draw(receiptBackground);
+		receiptTexture.Draw(receiptBackground);
 
 
 
@@ -133,7 +134,7 @@ class Customer
 		Sprite logo = new Sprite(new Texture("./assets/logo-receipt.png"));
 		logo.Scale = new Vector2f(3, 2);
 		logo.Position = new Vector2f(x, y);
-		receipt.Draw(logo);
+		receiptTexture.Draw(logo);
 
 
 		// TODO: Don't fill it with newlines and stuff
@@ -153,14 +154,14 @@ class Customer
 		Text itemsText = new Text(itemsTextString, font, fontSize);
 		itemsText.Position = new Vector2f(x, y);
 		itemsText.FillColor = Color.Black;
-		receipt.Draw(itemsText);
+		receiptTexture.Draw(itemsText);
 
 		// Make the receipt prices text
 		Text pricesText = new Text(pricesTextString, font, fontSize);
 		pricesText.Origin = new Vector2f(pricesText.GetGlobalBounds().Width, 0);
 		pricesText.Position = new Vector2f(x + 200, y);
 		pricesText.FillColor = Color.Black;
-		receipt.Draw(pricesText);
+		receiptTexture.Draw(pricesText);
 
 		// Make some random stuff at the bottom
 		y += itemsText.GetGlobalBounds().Height + 20;
@@ -168,24 +169,28 @@ class Customer
 		Text bottomText = new Text(bottomTextString, font, 20);
 		bottomText.FillColor = Color.Black;
 		bottomText.Position = new Vector2f(x, y);
-		receipt.Draw(bottomText);
+		receiptTexture.Draw(bottomText);
 
 		// Add a barcode with a random number to look cool
-		y = receipt.Texture.Size.Y - 120;
+		y = receiptTexture.Texture.Size.Y - 120;
 		Sprite barcode = GenerateBarcode(new Random().Next(10000, 99999));
 		barcode.Position = new Vector2f(x, y);
-		receipt.Draw(barcode);
+		receiptTexture.Draw(barcode);
 
 		// Display the final receipt before rendering to stop it from going upside down
-		receipt.Display();
+		receiptTexture.Display();
+		receipt = new Sprite(receiptTexture.Texture);
+
+		// Put the receipt on the right of the screen
+		// TODO: Make it draggable
+		receipt.Position = new Vector2f(565, 0);
 	}
 
 
 
 	public void RenderReceipt()
 	{
-		// TODO: Don't make new sprite every time
-		Game.Window.Draw(new Sprite(receipt.Texture));
+		Game.Window.Draw(receipt);
 	}
 
 
