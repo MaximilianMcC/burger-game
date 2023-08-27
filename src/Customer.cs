@@ -72,7 +72,39 @@ class Customer
 
 		// Generate the order dialogue asking thing
 		string orderString = "";
+		string greeting;
+		string want;
+		string with;
+		string foodType;
+		string ingredients;
+		string ending;
 		
+		// Add a random, then way of asking what they want
+		greeting = Dialogue.Lines.greetings[random.Next(0, Dialogue.Lines.greetings.Count)] + " ";
+		want = Dialogue.Lines.want[random.Next(0, Dialogue.Lines.want.Count)] + " ";
+
+		// Add what type of food they want
+		// TODO: Add other food types and whatnot. For example, "burger and a drink"
+		foodType = "burger" + " ";
+
+		// Add the "with" part
+		with = Dialogue.Lines.with[random.Next(0, Dialogue.Lines.with.Count)] + " ";
+
+		// Add the ingredients
+		ingredients = string.Join(", ", Order.Select(ingredient => ingredient.name)) + ". ";
+
+		// Add the ending
+		ending = Dialogue.Lines.end[random.Next(0, Dialogue.Lines.end.Count)] + " ";
+
+		// Make the order string
+		orderString = Dialogue.Lines.template1Item.Replace("{greeting}", greeting);
+		orderString = orderString.Replace("{want}", want);
+		orderString = orderString.Replace("{thingName}", foodType);
+		orderString = orderString.Replace("{with}", with);
+		orderString = orderString.Replace("{ingredients}", ingredients);
+		orderString = orderString.Replace("{ending}", ending);
+
+		Console.WriteLine(orderString);
 	}
 
 	// Make a receipt showing the customers order

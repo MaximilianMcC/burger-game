@@ -1,13 +1,12 @@
 {
-	"template1Item": "{greeting}{want}{thing}{ending}",
+	"template1Item": "{greeting}{want}{thingName}{with}{ingredients}{ending}",
 
 	"greetings": [
-		"Hello",
-		"Kia Ora",
+		"Hello,",
+		"Kia Ora!!",
 		"Right,",
 		"ok buddy,"
 	],
-
 	"want": [
 		"",
 		"i'm looking for a",
@@ -19,7 +18,11 @@
 		"surely chuck us a",
 		"surely a"
 	],
-
+	"with": [
+		"with",
+		"that has",
+		"wit"
+	],
 	"end": [
 		"rn",
 		"now",

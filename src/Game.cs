@@ -27,14 +27,7 @@ class Game
 		// test
 		Customer testCustomer = new Customer();
 		Burger testBurger = new Burger(testCustomer.Order);
-		testCustomer.GenerateOrderReceipt();
-
-
-		foreach (var item in Dialogue.dialogueLines.greetings)
-		{
-			Console.WriteLine(item);
-		}
-
+		testCustomer.GenerateOrderReceipt(); 
 
 		// Make stuff
 		ingredients = new List<Prop>();
