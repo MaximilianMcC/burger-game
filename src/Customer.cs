@@ -91,8 +91,23 @@ class Customer
 		with = Dialogue.Lines.With[random.Next(0, Dialogue.Lines.With.Count)] + " ";
 
 		// Add the ingredients
-		// TODO: Make it sound more real. For example "top bun, maybe some cheese, onion, tomato, and beef patty with bottom bun"
-		ingredients = string.Join(", ", Order.Select(ingredient => ingredient.Name)) + ". ";
+		ingredients = "";
+		for (int i = 0; i < Order.Count; i++)
+		{
+			ingredients += Order[i].Name;
+
+			// Check for if its not the last item
+			if (i != Order.Count - 1)
+			{
+				// Check for if we add a joiner
+				if (random.NextSingle() < 0.5)
+				{
+					ingredients += " " + Dialogue.Lines.Joiners[random.Next(0, Dialogue.Lines.Joiners.Count)]+ " ";
+				}
+				else ingredients += ", ";
+			}
+			else ingredients += " ";
+		}
 
 		// Add the ending
 		ending = Dialogue.Lines.End[random.Next(0, Dialogue.Lines.End.Count)] + " ";

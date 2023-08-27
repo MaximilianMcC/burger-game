@@ -5,7 +5,8 @@
 		"Hello,",
 		"Kia Ora!!",
 		"Right,",
-		"ok buddy,"
+		"ok buddy,",
+		"Ello mayte,"
 	],
 	"want": [
 		"",
@@ -16,14 +17,25 @@
 		"im feeling like a",
 		"gimme",
 		"surely chuck us a",
-		"surely a"
+		"surely a",
+		"could you possibly construct a"
 	],
 	"with": [
 		"with",
 		"that has",
-		"wit"
+		"wit",
+		"consisting of"
+	],
+	"joiners": [
+		"and some",
+		"with",
+		"also",
+		"an",
+		"and",
+		"maybe some"
 	],
 	"end": [
+		"",
 		"rn",
 		"now",
 		"please",

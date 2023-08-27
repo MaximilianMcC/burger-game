@@ -23,5 +23,6 @@ public class DialogueLines
 	[JsonPropertyName("greetings")] public List<string> Greetings { get; set; }
 	[JsonPropertyName("want")] public List<string> Want { get; set; }
 	[JsonPropertyName("with")] public List<string> With { get; set; }
+	[JsonPropertyName("joiners")] public List<string> Joiners { get; set; }
 	[JsonPropertyName("end")] public List<string> End { get; set; }
 }
