@@ -4,13 +4,13 @@ using SFML.System;
 class Customer
 {
 	public List<Ingredient> Order { get; private set; }
-	public float OrderPrice { get; private set; } = 0f;
-	public int OrderNumber { get; set; } //? Position in the line
+	public string OrderString { get; private set; }
+	public float OrderPrice { get; private set; } = 0.00f;
 	private RenderTexture receipt;
 
 	public Customer()
 	{
-		// Create an order
+		// Create an order, and the order asking string
 		GenerateOrder();
 	}
 
@@ -66,7 +66,13 @@ class Customer
 		// Set the customers order and the price
 		Order = order;
 		OrderPrice = MathF.Round(OrderPrice, 2);
-		OrderNumber++;
+
+
+
+
+		// Generate the order dialogue asking thing
+		string orderString = "";
+		
 	}
 
 	// Make a receipt showing the customers order

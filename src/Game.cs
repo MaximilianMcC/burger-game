@@ -20,10 +20,20 @@ class Game
 		// Clock and ui
 		Clock deltaTimeClock = new Clock();
 
+		// Load stuff
 		Foodstuffs.LoadIngredients();
+		Dialogue.LoadDialogue();
+
+		// test
 		Customer testCustomer = new Customer();
 		Burger testBurger = new Burger(testCustomer.Order);
 		testCustomer.GenerateOrderReceipt();
+
+
+		foreach (var item in Dialogue.dialogueLines.greetings)
+		{
+			Console.WriteLine(item);
+		}
 
 
 		// Make stuff
