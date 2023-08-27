@@ -40,8 +40,7 @@ class Customer
 		for (int i = 0; i < orderCount; i++)
 		{
 			// Get a random ingredient from the weighted list
-			int index = random.Next(0, weightedIngredients.Count);
-			Ingredient ingredient = weightedIngredients[index];
+			Ingredient ingredient = Utils.RandomListElement(weightedIngredients);
 
 			// Add the ingredient to the order
 			order.Add(ingredient);
@@ -71,6 +70,7 @@ class Customer
 
 
 		// Generate the order dialogue asking thing
+		// TODO: More advanced grammar and stuff
 		string orderString = "";
 		string greeting;
 		string want;
@@ -80,15 +80,15 @@ class Customer
 		string ending;
 		
 		// Add a random, then way of asking what they want
-		greeting = Dialogue.Lines.Greetings[random.Next(0, Dialogue.Lines.Greetings.Count)] + " ";
-		want = Dialogue.Lines.Want[random.Next(0, Dialogue.Lines.Want.Count)] + " ";
+		greeting = Utils.RandomListElement(Dialogue.Lines.Greetings) + " ";
+		want = Utils.RandomListElement(Dialogue.Lines.Want) + " ";
 
 		// Add what type of food they want
 		// TODO: Add other food types and whatnot. For example, "burger and a drink"
 		foodType = "burger" + " ";
 
 		// Add the "with" part
-		with = Dialogue.Lines.With[random.Next(0, Dialogue.Lines.With.Count)] + " ";
+		with = Utils.RandomListElement(Dialogue.Lines.With) + " ";
 
 		// Add the ingredients
 		ingredients = "";
@@ -102,15 +102,15 @@ class Customer
 				// Check for if we add a joiner
 				if (random.NextSingle() < 0.5)
 				{
-					ingredients += " " + Dialogue.Lines.Joiners[random.Next(0, Dialogue.Lines.Joiners.Count)]+ " ";
+					ingredients += " " + Utils.RandomListElement(Dialogue.Lines.Joiners) + " ";
 				}
 				else ingredients += ", ";
 			}
-			else ingredients += " ";
+			else ingredients += ". ";
 		}
 
 		// Add the ending
-		ending = Dialogue.Lines.End[random.Next(0, Dialogue.Lines.End.Count)] + " ";
+		ending = Utils.RandomListElement(Dialogue.Lines.End) + " ";
 
 		// Make the order string
 		orderString = Dialogue.Lines.Template1Item.Replace("{greeting}", greeting);
