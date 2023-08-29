@@ -7,7 +7,7 @@ public static class Dialogue
 
 	public static void LoadDialogue()
 	{
-		// Get the ingredients JSON file
+		// Get the dialogue JSON file
 		string dialogueJsonPath = "./assets/dialogue.json";
 		string dialogueJson = File.ReadAllText(dialogueJsonPath);
 

@@ -12,6 +12,9 @@ class Customer
 	{
 		// Create an order, and the order asking string
 		GenerateOrder();
+
+		// Get a name and texture for the physical character
+		
 	}
 
 	private void GenerateOrder()

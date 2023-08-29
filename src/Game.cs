@@ -23,6 +23,14 @@ class Game
 		// Load stuff
 		Foodstuffs.LoadIngredients();
 		Dialogue.LoadDialogue();
+		Characters.LoadCharacters();
+
+		Console.WriteLine(Characters.Customers.Count);
+
+		foreach (Character customer in Characters.Customers)
+		{
+			Console.WriteLine(customer.Name + "\t" + customer.TexturePath);
+		}
 
 		// test
 		Customer testCustomer = new Customer();
