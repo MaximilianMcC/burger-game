@@ -30,7 +30,7 @@ class Receipt : GameObject
 		Utils.DrawTexture(receiptBackground, position, size);
 
 		// Draw the logo
-		position.Y += 50f;
+		position.Y += 20f;
 		Vector2 logoSize = new Vector2(
 			size.X * 0.9f,
 			size.X * 0.6f
@@ -69,6 +69,55 @@ class Receipt : GameObject
 			11f / 10f,
 			Color.Black
 		);
+		position.Y += 11f * 15f;
+
+		// Draw the barcode
+		position.Y += 80;
+		logoSize.Y *= 0.3f;
+		DrawBarcode(position, logoSize, DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+	}
+
+	private void DrawBarcode(Vector2 position, Vector2 size, long number)
+	{
+		bool[][] patterns = new bool[][]
+		{
+			new bool[] { false, false, false, true, true, false, true }, // 0
+			new bool[] { false, false, true, true, false, false, true }, // 1
+			new bool[] { false, false, true, false, false, true, true }, // 2
+			new bool[] { false, true, true, true, true, false, true }, // 3
+			new bool[] { false, true, false, false, false, true, true }, // 4
+			new bool[] { false, true, true, false, false, false, true }, // 5
+			new bool[] { false, true, false, true, true, true, true }, // 6
+			new bool[] { false, true, true, true, false, true, true }, // 7
+			new bool[] { false, true, true, false, true, true, true }, // 8
+			new bool[] { false, false, false, true, false, true, true } // 9
+		};
+
+		// Stringify the number so we can use each 'digit' as an index
+		string numberString = number.ToString();
+
+		// Figure out how large each 'bit' is
+		Vector2 bitSize = new Vector2(
+			size.X / (numberString.Length * patterns[0].Length),
+			size.Y
+		);
+
+		// Loop over each digit and draw it
+		for (int i = 0; i < numberString.Length; i++)
+		{
+			// Loop over each 'bit' in the digit
+			int patternIndex = int.Parse(numberString[i].ToString());
+			bool[] barcodePattern = patterns[patternIndex];
+			for (int j = 0; j < barcodePattern.Length; j++)
+			{
+				// Draw it
+				if (barcodePattern[j] == true)
+				{
+					Raylib.DrawRectangleV(position, bitSize, Color.Black);
+				}
+				position.X += bitSize.X;
+			}
+		}
 	}
 
 	public override void CleanUp()
