@@ -7,7 +7,6 @@ class Foodstuff : GameObject
 	private Texture2D cookingTexture;
 	private Texture2D cookedTexture;
 	private Texture2D burntTexture;
-	private Vector2 size = new Vector2(64, 32) * 2f;
 
 	public CookState State = CookState.Raw;
 	private float cookTime;
@@ -22,6 +21,8 @@ class Foodstuff : GameObject
 
 	public Foodstuff(string rawTexturePath, string cookingTexturePath, string cookedTexturePath, string burntTexturePath)
 	{
+		Size =	new Vector2(64, 32) * 2f;
+
 		rawTexture = Raylib.LoadTexture(rawTexturePath);
 		cookingTexture = Raylib.LoadTexture(cookingTexturePath);
 		cookedTexture = Raylib.LoadTexture(cookedTexturePath);
@@ -30,7 +31,8 @@ class Foodstuff : GameObject
 
 	public override void Update()
 	{
-		Cook();
+		// Check for if we are on the hob and if so cook
+		if (Scene.Get<Hob>().OnHob(this)) Cook();
 	}
 
 	private void Cook()
@@ -45,7 +47,7 @@ class Foodstuff : GameObject
 
 	public override void Draw()
 	{
-		Utils.DrawTexture(currentTexture, Position, size);
+		Utils.DrawTexture(currentTexture, Position, Size);
 	}
 
 	public override void CleanUp()
