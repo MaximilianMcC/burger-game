@@ -3,6 +3,9 @@ using Raylib_cs;
 
 class Foodstuff : GameObject
 {
+	private bool draggingRn;
+	private Vector2 dragOffset;
+
 	private Texture2D rawTexture;
 	private Texture2D cookingTexture;
 	private Texture2D cookedTexture;
@@ -31,8 +34,33 @@ class Foodstuff : GameObject
 
 	public override void Update()
 	{
+		DragAndDrop();
+
 		// Check for if we are on the hob and if so cook
 		if (Scene.Get<Hob>().OnHob(this)) Cook();
+	}
+
+	private void DragAndDrop()
+	{
+		// Check for if we are hovering over the thing
+		bool hovering = Raylib.CheckCollisionPointRec(Raylib.GetMousePosition(), Rectangle);
+
+		if (draggingRn == false && Raylib.IsMouseButtonPressed(MouseButton.Left) && hovering)
+		{
+			draggingRn = true;
+			dragOffset = Raylib.GetMousePosition() - Position;
+		}
+
+		if (draggingRn)
+		{
+			Position = Raylib.GetMousePosition() - dragOffset;
+		}
+
+		if (draggingRn && Raylib.IsMouseButtonReleased(MouseButton.Left))
+		{
+			draggingRn = false;
+			Raylib.SetMouseCursor(MouseCursor.Default);
+		}
 	}
 
 	private void Cook()
